@@ -1,0 +1,105 @@
+﻿@using WebBanHangOnline.Common
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Sidebar user (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+            <img src="~/Areas/Admin/Content/clients/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+            <a href="/admin/account/Profile" class="d-block">@User.Identity.Name</a>
+        </div>
+    </div>
+
+    <!-- SidebarSearch Form -->
+    @*<div class="form-inline">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>*@
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+            @foreach (var item in Applications.Instance.GetTreeModules())
+            {
+                if (!item.Value.Any())
+                {
+                    <li class="nav-item" id="module-@item.Key.ModuleId">
+                        <a href="@item.Key.Url" class="nav-link">
+                            <i class="nav-icon fas @item.Key.Icon"></i>
+                            <p>
+                                @item.Key.ModuleName
+                            </p>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item" id="module-@item.Key.ModuleId">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon far fa-plus-square"></i>
+                            <p>
+                                @item.Key.ModuleName
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @foreach (var moduleItem in item.Value)
+                            {
+                                <li class="nav-item" id="module-@moduleItem.ModuleId">
+                                    <a href="@moduleItem.Url" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>@moduleItem.ModuleName</p>
+                                    </a>
+                                </li>
+                            }
+                            @*<li class="nav-item">
+                                <a href="/admin/productcategory" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Danh mục sản phẩm</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/products" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Sản phẩm</p>
+                                </a>
+                            </li>*@
+
+                        </ul>
+                    </li>
+                }
+            }
+            <li class="nav-item">
+                <a href="javascript:document.getElementById('logOffForm').submit()" class="nav-link">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                        Đăng xuất
+                        <span class="right badge badge-danger">New</span>
+                    </p>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->
+
+@if (Request.IsAuthenticated)
+{
+<div style="display:none">
+    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+</div>
+}

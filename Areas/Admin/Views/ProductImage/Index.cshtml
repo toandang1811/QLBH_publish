@@ -1,0 +1,182 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.ProductImage>
+@{
+    ViewBag.Title = "Ảnh sản phảm";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
+
+
+}
+@*<style>
+        .glImage {
+            padding: 0;
+            gap: 10px;
+        }
+
+        .glImage li {
+            /*flex-direction:*/
+            display: inline-block;
+            position: relative;
+            border: .2rem double #b1b1b1;
+            height: 200px;
+            border-radius: 15px;
+        }
+
+        .glImage li:hover {
+            box-shadow: 0px 4px 5px 1px;
+            border-color: #1c7cdf;
+            cursor: pointer;
+        }
+
+        .glImage li img {
+            border-radius: 15px 15px 0 0;
+        }
+
+        .box-btn {
+            gap:3px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            justify-content: center;
+            display: flex;
+            height: 20%;
+            background-color: #e7e0e6;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .col-img-prod {
+            padding: 0;
+        }
+
+        .block-image-prod {
+            width: 100%;
+            height: 80%;
+        }
+
+        .btnDefault, .btnDelete {
+            align-self: center;
+        }
+    </style>*@
+@section styles {
+    <link href="~/Areas/Admin/Css/cssProductImage.css" rel="stylesheet" />
+    <link href="~/Areas/Admin/Css/cssCommon.css" rel="stylesheet" />
+}
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card" id="card-action">
+        <div class="card-header">
+            <h3 class="card-title">Ảnh sản phẩm</h3>
+
+            <div class="card-tools" id="card-taskbar">
+                <!--<input type="button" id="btnSelectFile" value="Tải ảnh" class="btn btn-success" />-->
+                <!-- Input ẩn để chọn file -->
+                @*<input type="hidden" id="inputFileName" />*@
+                <!--<div class="taskbar">-->
+                <!-- Các nút trên taskbar -->
+                <!--<button class="taskbar-button" id="add-btn">
+                    <i class="fas fa-plus"></i>
+                </button>-->
+            </div>
+            <input type="file" id="fileInput" name="file" style="display: none;" />
+        </div>
+        <div class="card-body">
+            <div class="row gallery" id="container-product-image">
+                @if (Model != null)
+                {
+                    int i = 1;
+                    foreach (var item in Model)
+                    {
+                        <div class="col-sm-2 line-img @(item.IsDefault ? "check-default" : "")" id="image-@item.Id">
+                            <button class="close" data-id="image-@item.Id"><i class="fas fa-times"></i></button>
+                            <input type="hidden" id="public-id-image-@item.Id" value="@item.PublicId" style="border-style: groove;" />
+                            <img src="@item.Image" id="src-image-@item.Id" class="img-fluid mb-2" alt="white sample" />
+                        </div>
+                        i++;
+                    }
+                }
+            </div>
+            @*<ul class="glImage row">
+                    @if (Model != null)
+                    {
+                        int i = 1;
+                        foreach (var item in Model)
+                        {
+                            <li id="trow_@item.Id" class="col-4 col-sm-3 col-img-prod">
+                                <div class="block-image-prod">
+                                    <img src="@item.Image" style="width: 100%; height: 100%;" />
+                                </div>
+                                <div class="box-btn">
+                                    @if (item.IsDefault)
+                                    {
+                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-success btnDefault"><i class="fa fa-check"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" data-id="@item.Id" class="btn btn-sm btn-warning btnDefault">X</a>
+                                    }
+                                    <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete"><i class="fa fa-trash"></i></a>
+                                </div>
+                            </li>
+                            if (i % 4 == 0)
+                            {
+                                <li class="w-100 d-none d-md-block"></li>
+                            }
+                            i = i + 1;
+                        }
+                    }
+                </ul>*@
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <input type="hidden" id="product-id" value="@ViewBag.ProductId" />
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+@section scripts{
+    <script src="~/Areas/Admin/Scripts/ProductImage/index.js"></script>
+    <script src="~/Areas/Admin/Scripts/jsCommonAdmin.js"></script>
+}
+@*<script>
+        function BrowseServer(field) {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                debugger;
+                AddImage(@ViewBag.productId, fileUrl);
+            };
+            finder.popup();
+        }
+        function AddImage(id, url) {
+            debugger;
+            $.ajax({
+                url: '/admin/productimage/AddImage',
+                type: 'POST',
+                data: { productId: id, url: url },
+                success: function (rs) {
+                    if (rs.Success) {
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+        $(document).ready(function () {
+            $('body').on('click', '.btnDelete', function () {
+                var id = $(this).data('id');
+                var conf = confirm('ban có muốn xóa ảnh này không?');
+                if (conf === true) {
+                    $.ajax({
+                        url: '/admin/productimage/delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.success) {
+                                $('#trow_' + id).remove();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>*@

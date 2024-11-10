@@ -1,0 +1,47 @@
+﻿
+.taskbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: transparent;
+    padding: 10px 20px;
+    justify-content: end;
+}
+
+/* Style cho các nút trên taskbar */
+.taskbar-button {
+    color: #fff;
+    background-color: #117a8b;
+    border-color: #10707f;
+    border-radius: 50%;
+    border: none;
+    padding: 10px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+/* Style khi hover vào nút */
+.taskbar-button:hover {
+    background-color: #18b0c9;
+    color: #fff;
+}
+
+[aria-disabled="true"] {
+    pointer-events: none;
+    color: #ccc;
+}
+
+.btn-confirm {
+    margin: 0 15px;
+    background-color: #055d91;
+    color: #fff;
+}
+
+.col-action {
+    gap: 3px;
+    display: flex;
+}
